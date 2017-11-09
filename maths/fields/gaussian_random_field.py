@@ -41,7 +41,7 @@ class scalar_grf:
         elif len(n_shape)==3:
             self.init_3d(n_shape[0],n_shape[1],n_shape[2],alpha,real_field)
         else:
-            print("Cannot make field with shape",n_shape)
+            print("Cannot make field with rank",len(n_shape))
             
             
     def init_1d(self,n_x,alpha,real_field):
@@ -98,7 +98,7 @@ class scalar_grf:
             self.spectrum=np.roll(self.spectrum,n_x//2+1)
         
         # perform FFT
-        self.signal=np.fft.ifft(self.spectrum,norm="ortho")
+        self.signal=np.fft.ifft(self.spectrum)
         
         
     def init_2d(self,n_x,n_y,alpha,real_field):
@@ -138,7 +138,7 @@ class scalar_grf:
         # convert k_x and k_y to grid format
         k_x,k_y=np.meshgrid(k_x,k_y,indexing='ij')
         k=np.sqrt(k_x**2+k_y**2)
-            
+
         # create amplitude array a(k)
         a_k=np.where(k>0,k**(-0.5*(alpha+1.)),0.)
         
@@ -148,7 +148,7 @@ class scalar_grf:
         # make spetrum Hermitian if signal is real
         if real_field:
             # make array of phi(-k)
-            phi_k_minus=phi_k[::-1,::-1]
+            phi_k_minus=phi_k[::-1,::-1]            
             phi_k=phi_k-phi_k_minus
         
         # create complex spectrum
@@ -158,21 +158,25 @@ class scalar_grf:
         
         # resize and shift array (if size is even, n//2 frequency is superposition of n//2 and -n//2)
         if np.mod(n_x,2)==0:
+            
             self.spectrum[0,:]+=self.spectrum[-1,:]
             self.spectrum=self.spectrum[:n_x,:]
+            
             self.spectrum=np.roll(self.spectrum,n_x//2,0)
         else:
             self.spectrum=np.roll(self.spectrum,n_x//2+1,0)
-        
+            
         if np.mod(n_y,2)==0:
+            
             self.spectrum[:,0]+=self.spectrum[:,-1]
             self.spectrum=self.spectrum[:,:n_y]
+            
             self.spectrum=np.roll(self.spectrum,n_y//2,1)
         else:
             self.spectrum=np.roll(self.spectrum,n_y//2+1,1)
             
         # perform FFT
-        self.signal=np.fft.ifftn(self.spectrum,norm="ortho")
+        self.signal=np.fft.ifftn(self.spectrum)
         
     def init_3d(self,n_x,n_y,n_z,alpha,real_field):
         
@@ -258,7 +262,7 @@ class scalar_grf:
             self.spectrum=np.roll(self.spectrum,n_z//2+1,2)
             
         # perform FFT
-        self.signal=np.fft.ifftn(self.spectrum,norm="ortho")
+        self.signal=np.fft.ifftn(self.spectrum)
         
     def normalise(self,sigma=1.,exponentiate=False,exp_base=np.e):
         

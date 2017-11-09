@@ -1,5 +1,7 @@
 import numpy as np
-from scipy import sparse, spatial
+from scipy.sparse.csgraph import minimum_spanning_tree
+from scipy.sparse import lil_matrix
+from scipy.spatial import Delaunay
 from maths.graphs.edges import graph_edge_positions, graph_edge_lengths
 
 class euclidean_mst:
@@ -40,11 +42,11 @@ class euclidean_mst:
         # Calculate Delaunay triangulation
         print("Generating Delaunay triangulation.")
         self.r=r
-        self.del_tri=spatial.Delaunay(self.r)
+        self.del_tri=Delaunay(self.r)
         
         # Convert Delaunay triangulation to matrix graph format
         print("Converting triangulation to sparse matrix format.")
-        self.tri=sparse.lil_matrix((r.shape[0],r.shape[0]),dtype=r.dtype)
+        self.tri=lil_matrix((r.shape[0],r.shape[0]),dtype=r.dtype)
         indices=self.del_tri.vertex_neighbor_vertices[0]
         indptr=self.del_tri.vertex_neighbor_vertices[1]
         
@@ -63,7 +65,7 @@ class euclidean_mst:
         
         # Calculate minimum spanning tree
         print("Generating minimum spanning tree.")
-        self.mst=sparse.csgraph.minimum_spanning_tree(self.tri)
+        self.mst=minimum_spanning_tree(self.tri)
         
     def tri_edge_positions(self):
         
