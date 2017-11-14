@@ -15,7 +15,7 @@ class scalar_grf:
     """
         
         
-    def __init__(self,n_shape,alpha,real_field):
+    def __init__(self,n_shape,beta,real_field):
         
         """
         Subroutine: generate a nd random gaussian field with a power spectrum
@@ -26,7 +26,7 @@ class scalar_grf:
         n_shape(,): tuple, int
             shape of field
             
-        alpha: float
+        beta: float
             power spectrum exponent
         
         real_field: boolean
@@ -49,7 +49,7 @@ class scalar_grf:
         k=np.sqrt(k)
             
         # create amplitude array a(k)
-        a_k=np.where(k>0,k**(-0.5*(alpha+len(n_shape)-1)),0.)
+        a_k=np.where(k>0,k**(-0.5*beta),0.)
         a_k/=np.sqrt((a_k**2).sum())
         
         # create phase array phi(k)
