@@ -33,7 +33,7 @@ class r_matrix_2d:
         self.value[1,1]=self.value[0,0]
         
         # calc off-diagonal components
-        self.value[0,1]=np.sin(theta)
+        self.value[0,1]=-np.sin(theta)
         self.value[1,0]=-self.value[0,1]
         
     def rotate_vec(self,v):
@@ -97,12 +97,12 @@ class r_matrix_3d:
         self.value[2,2]=cos_theta+u[2]**2*(1.-cos_theta)
         
         # calc off-diagonal components
-        self.value[0,1]=u[0]*u[1]*(1.-cos_theta)+u[2]*sin_theta
-        self.value[1,2]=u[1]*u[2]*(1.-cos_theta)+u[0]*sin_theta
-        self.value[0,2]=u[0]*u[2]*(1.-cos_theta)-u[1]*sin_theta
-        self.value[1,0]=u[1]*u[0]*(1.-cos_theta)-u[2]*sin_theta
-        self.value[2,1]=u[2]*u[1]*(1.-cos_theta)-u[0]*sin_theta
-        self.value[2,0]=u[2]*u[0]*(1.-cos_theta)+u[1]*sin_theta
+        self.value[0,1]=u[0]*u[1]*(1.-cos_theta)-u[2]*sin_theta
+        self.value[1,2]=u[1]*u[2]*(1.-cos_theta)-u[0]*sin_theta
+        self.value[0,2]=u[0]*u[2]*(1.-cos_theta)+u[1]*sin_theta
+        self.value[1,0]=u[1]*u[0]*(1.-cos_theta)+u[2]*sin_theta
+        self.value[2,1]=u[2]*u[1]*(1.-cos_theta)+u[0]*sin_theta
+        self.value[2,0]=u[2]*u[0]*(1.-cos_theta)-u[1]*sin_theta
         
     def rotate_vec(self,v):
         

@@ -5,7 +5,7 @@ def cube(n,cube_file):
     
     """
     
-    Funtion: generate a cube of point based on custom cubic primative
+    Funtion: generate a cube of points based on custom cubic primative
     
     Arguments
     ---------

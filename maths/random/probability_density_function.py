@@ -65,7 +65,7 @@ class pdf:
             self.f_x_cum[0]=cum_dist_func(self.axes[0],self.f_x_cum[1][:,-1])
             
             # associate correct function
-            self.stretch_value=self.strech_value_3d
+            self.stretch_value=self.stretch_value_3d
             
         elif len(self.f_x.shape)==2:
              
@@ -78,7 +78,7 @@ class pdf:
             self.f_x_cum[0]=cum_dist_func(self.axes[0],self.f_x_cum[1][:,-1])
             
             # associate correct function
-            self.stretch_value=self.strech_value_2d
+            self.stretch_value=self.stretch_value_2d
             
         elif len(self.f_x.shape)==1:
             
@@ -158,7 +158,7 @@ class pdf:
         
         return x_new
     
-    def strech_value_3d(self,x):
+    def stretch_value_3d(self,x):
         
         """
         Function: stretches x to new value based on pdf
@@ -204,33 +204,6 @@ class pdf:
         x_new[2]=np.interp(x[2]*f_xy[-1],f_xy,self.axes[2])
         
         return x_new
-            
-            
-    def random(self,n=1):
-            
-        """
-        Function: returns array of random variates from pdf
-        
-        Arguments
-        ---------
-        n: int
-            number of random variates
-            
-        Result
-        ------
-        
-        r_num[n,len(self.f_x.shape)]: float
-            array of random variates
-            
-        """
-        
-        # set r_num array
-        r_num=np.random.random((n,len(self.f_x.shape)))
-        
-        for i in range(n):
-            r_num[i,:]=self.stretch_value(r_num[i,:])
-        
-        return r_num
     
     def stretch_lattice(self,r):
             
@@ -257,5 +230,28 @@ class pdf:
             r_stretch[i,:]=self.stretch_value(r[i,:])
             
         return r_stretch
+    
+    def random(self,n=1):
+            
+        """
+        Function: returns array of random variates from pdf
+        
+        Arguments
+        ---------
+        n: int
+            number of random variates
+            
+        Result
+        ------
+        
+        r_num[n,len(self.f_x.shape)]: float
+            array of random variates
+            
+        """
+        
+        # set r_num array
+        r_num=np.random.random((n,len(self.f_x.shape)))
+        
+        return self.stretch_lattice(r_num)
         
         
